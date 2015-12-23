@@ -19,5 +19,7 @@
 
 (defn =$
   ([m1] true)
-  ([m1 m2] (zero? (.compareTo m1 m2))))
+  ([m1 m2] (zero? (.compareTo m1 m2)))
+  ([m1 m2 & moneys]
+   (every? zero? (map #(.compareTo m1 %) (conj moneys m2)))))
 
