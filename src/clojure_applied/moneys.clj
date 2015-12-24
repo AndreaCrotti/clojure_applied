@@ -11,6 +11,7 @@
     (compare (:amount m1) (:amount m2))))
 
 (defn- validate-same-currency
+  "The currency needs to be the same to allow a comparison"
   [m1 m2]
   (or (= (:currency m1) (:currency m2))
       (throw
@@ -22,4 +23,3 @@
   ([m1 m2] (zero? (.compareTo m1 m2)))
   ([m1 m2 & moneys]
    (every? zero? (map #(.compareTo m1 %) (conj moneys m2)))))
-

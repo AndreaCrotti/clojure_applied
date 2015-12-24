@@ -21,4 +21,5 @@
 
 (deftest money-checks
   (testing "Check money comparison"
-    (is (= (make-money 10 EURO) (make-money 10 EURO)))))
+    (is (= (make-money 10 EURO) (make-money 10 EURO)))
+    (is (moneys/=$ 0 0 0))))
