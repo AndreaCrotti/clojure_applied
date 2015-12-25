@@ -3,6 +3,20 @@
             [clojure-applied.moneys :as moneys]))
 
 (declare +$)
+
+(s/defrecord Ingredient
+    [name  :- s/Str
+     quantity :- s/Int
+     unit :- s/Keyword])
+
+(s/defrecord Recipe
+    [name :- s/Str
+     ingredients :- [Ingredient]])
+
+(s/defrecord Store
+    [name :- s/Str
+     inventary :- {s/Str s/Int}]) ; make money also with schema
+
 (def USD (moneys/->Currency 100 "USD" "us dollars"))
 (def zero-dollars (moneys/->Money 0 USD))
 
@@ -18,19 +32,6 @@
   (map->Store {:name "vivo"
                :inventary {"pasta" 1
                            "totato" 100}}))
-
-(s/defrecord Ingredient
-    [name  :- s/Str
-     quantity :- s/Int
-     unit :- s/Keyword])
-
-(s/defrecord Recipe
-    [name :- s/Str
-     ingredients :- [Ingredient]])
-
-(s/defrecord Store
-    [name :- s/Str
-     inventary :- {s/Str s/Int}]) ; make money also with schema
 
 (defn cost-of [store ingredient]
   (let [usd (moneys/->Currency 100 "USD" "usd")]
@@ -49,7 +50,7 @@
 (defmethod cost Ingredient [ingredient store]
   (get (:inventary store) (:name ingredient)))
 
-(cost pizza simple-store)
+;; (cost pizza simple-store)
 
 (s/check Ingredient
          (->Ingredient "pasta" 1 :kg))
