@@ -23,3 +23,8 @@
   ([m1 m2] (zero? (.compareTo m1 m2)))
   ([m1 m2 & moneys]
    (every? zero? (map #(.compareTo m1 %) (conj moneys m2)))))
+
+
+(defn +$ [m1 m2]
+  {:amount (reduce + (map :amount [m1 m2]))
+   :currency (:currency m1)}) ; assuming the currency does not change here
