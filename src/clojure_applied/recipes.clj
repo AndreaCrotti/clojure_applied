@@ -75,3 +75,22 @@
 
 
 (cost-proto pizza simple-store)
+
+;; Using multimethod for smarter type dispatch
+(defmulti convert
+  "Convert quantity from unit1 to unit2"
+  (fn [unit1 unit2 quantity] [unit1 unit2]))
+
+;; pattern matching on the two given values and
+;; only extract the quantity that is the only needed one anyway
+(defmethod convert [:lb :oz] [_ _ lb] (* lb 16))
+
+(defmethod convert :default [u1 u2 q]
+  (if (= u1 u2)
+    q
+    (throw (ex-info "Could not add ingredients"))))
+
+;; see if having a less complete representation can still
+;; generate the whole thing
+(def conversion-map {:gr 1000
+                     :lb 0.2})
