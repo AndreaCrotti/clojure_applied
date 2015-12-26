@@ -1,4 +1,5 @@
 (ns clojure-applied.colls
+  (import [clojure.lang Counted Indexed ILookup Seqable])
   (:require [medley.core :as medley]))
 
 ;; keep in mind of this difference
@@ -39,3 +40,31 @@
 
 (keywordize-entity {"name" 1
                     "last" 2})
+
+
+(deftype Pair [a b]
+  Seqable
+  (seq [_] (seq [a b]))
+
+  Counted
+  (count [_] 2)
+
+  Indexed
+  (nth [_ i]
+    (case i
+      0 a
+      1 b
+      (throw (IllegalArgumentException.))))
+
+  ILookup
+  (valAt [_ k _]
+    (case k
+      0 a
+      1 b
+      (throw (IllegalArgumentException.))))
+  (valAt [this k] (.valAt this k nil)))
+
+(defmethod print-method Pair
+  [pair w]
+  (.write w "#ch2.pair.Pair")
+  (print-method (vec (seq pair)) w))
