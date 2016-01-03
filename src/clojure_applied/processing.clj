@@ -133,3 +133,9 @@
 ;; - filter the data
 ;; - transform to the desired form
 ;; - reduce to get the final answer
+
+
+(def some-data [{:first "andrea" :last "crotti"}
+                {:first "pippo" :last "pluto"}])
+
+(count (group-by :first some-data))
