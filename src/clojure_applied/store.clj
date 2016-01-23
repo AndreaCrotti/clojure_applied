@@ -12,10 +12,6 @@
 ;; atom is a synchronized construct, and is also independent from anything else
 ;; and finally it updates immediately with no delays
 
-(declare no-negative-values?)
-
-(def inventory (atom {} :validator no-negative-values?))
-
 (defn no-negative-values?
   "Check values of a map for a negative value"
   [m]
@@ -23,6 +19,8 @@
     (when some-neg
       (println "Negative values ahead!!"))
     some-neg))
+
+(def inventory (atom {} :validator no-negative-values?))
 
 (defn in-stock?
   "Check if an item is in stock"
@@ -61,3 +59,15 @@
   "Returns a list of items purchased"
   [shopping-list]
   (reduce shop-for-item [] shopping-list))
+
+(defn restock-order
+  "A watch to restock something"
+  [k r ov nv]
+  )
+
+(defn init-with-restock
+  "Set up store with inventory"
+  [m]
+  (def inventory (atom m))
+  (def sold-items (atom {}))
+  (add-watch inventory :restock restock-order))

@@ -75,7 +75,7 @@
     (cost-of store ingredient)))
 
 
-(cost-proto pizza simple-store)
+;; (cost-proto pizza simple-store)
 
 ;; Using multimethod for smarter type dispatch
 (defmulti convert
